@@ -38,7 +38,7 @@ ACA_sessions = [0, 3, 4, 11, 12, 21, 24, 26, 29, 34, 38];
 
 badSessions = [];
 
-for session = 1:10
+for session = 1:nFolders
     
     try
         dataStruct = [];
@@ -51,6 +51,14 @@ for session = 1:10
         
         nNPYs = length(currFolderContents);
         
+        % read in cluster annotation file
+        %  1 = MUA -- presumed to contain spikes from multiple analyzed,
+        %  not analyzed
+        % 2 = good
+        % 3 = unsorted
+        clusterAnnotIdx = strcmp({currFolderContents(:).name}, 'clusters._phy_annotation.npy');
+        clusterAnnotes = readNPY([currFolderContents(clusterAnnotIdx).name]);
+        
         % peakChannels is 1085 long of values from 1-740
         % each row is a neuron/cluster; value corresponds to cluster it's
         % coming from
@@ -61,6 +69,9 @@ for session = 1:10
         % number of channels varies by session -- session 3 has 1122
         % python says there should be 1769 for session 3
         channels = tdfread([steinmetz_data_path, '/', currSession , '/channels.brainLocation.tsv']);
+        % if session == 3
+        %         brainArea = readtable([steinmetz_data_path, '/', currSession , '/brain_area.csv']);
+        %         brainAreaNPY = readNPY([steinmetz_data_path, '/', currSession , '/brain_area.npy']);
         
         spikeClustersFileIdx =  strcmp({currFolderContents(:).name}, 'spikes.clusters.npy');
         spikeClusters = readNPY([currFolderContents(spikeClustersFileIdx).name]); % max val is 1084 or 1085
@@ -108,7 +119,11 @@ for session = 1:10
             % number of channels of the probe corresponding to each area
             % session 3 channel indices range from 909 - 1058;
             % out of bounds of peakChannels
+            
             ACA_channel_idx = find(strcmp(cellstr(channels.allen_ontology), 'ACA'));
+            
+            %             ACA_channel_idx = find(strcmp(brainArea.Var2, 'ACA'));
+            
             
             % number of neurons recorded from each area
             % session = 3 -- not finding ACA channel idx in peakchannels
