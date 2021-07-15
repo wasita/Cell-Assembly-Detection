@@ -47,7 +47,7 @@ for session = 1:10
         currSession = currFolder.name;
         currFolderContents = dir(fullfile([currFolder.folder, '/', currFolder.name], '*.npy'));
         
-        fprintf(['Session #', num2str(session), ' ', currSession]);
+        fprintf(['Session #', num2str(session), ' ', currSession, newline]);
         
         nNPYs = length(currFolderContents);
         
@@ -93,6 +93,12 @@ for session = 1:10
         maxSpikeTime = max(spikeTimes);
         binSize = round(maxSpikeTime/0.01); % bc times is given to us in seconds
         binRanges = 0:0.01:maxSpikeTime;
+        
+        % Set parameters for running assemply_patterns
+        opts.threshold.permutations_percentile = 95;
+        opts.threshold.number_of_permutations = 20;
+        opts.threshold.method = 'MarcenkoPastur';
+        opts.Patterns.method = 'PCA';
         
         
         %%% ACA
