@@ -153,6 +153,7 @@ for session = 1:nFolders
             subplot(212)
             stem(ACA_AssemblyTemplates(:,2))
             prettifyFig();
+            set(gcf, 'Visible', 'off');
             
             saveas(gcf, [base_path, '/figures/', currSession, '_ACA_assembly_patterns_', ...
                 opts.threshold.method, '_', opts.Patterns.method, '_', num2str(n_assemblies_ACA), ...
@@ -197,6 +198,7 @@ for session = 1:nFolders
             subplot(212)
             stem(CA3_AssemblyTemplates(:,2))
             prettifyFig();
+            set(gcf, 'Visible', 'off');
             
             saveas(gcf, [base_path, '/figures/', currSession, '_CA3_assembly_patterns_', ...
                 opts.threshold.method, '_', opts.Patterns.method, '_', num2str(n_assemblies_CA3), ...
@@ -241,6 +243,7 @@ for session = 1:nFolders
             subplot(212)
             stem(CA1_AssemblyTemplates(:,2))
             prettifyFig();
+            set(gcf, 'Visible', 'off');
             
             saveas(gcf, [base_path, '/figures/', currSession, '_CA1_assembly_patterns_', ...
                 opts.threshold.method, '_', opts.Patterns.method, '_', num2str(n_assemblies_CA1), ...
