@@ -71,16 +71,16 @@ dataStruct.trialVisStim_times=readNPY(sprintf( '%s/trials.visualStim_times.npy',
 dataStruct.wheelPosition=readNPY(sprintf( '%s/wheel.position.npy',currFolderPath));
 dataStruct.wheelTimes=readNPY(sprintf( '%s/wheel.timestamps.npy',currFolderPath));
 dataStruct.passiveBeepTimes=readNPY(sprintf( '%s/passiveBeeps.times.npy',currFolderPath));
-dataStruct.passiveValveClick=readNPY(sprintf( '%s/passiveValveClick.times.npy',currFolderPath));
+dataStruct.passiveValveClick=readNPY(sprintf( '%s/passiveValveClick.npy',currFolderPath));
 dataStruct.passiveVisualTimes=readNPY(sprintf( '%s/passiveVisual.times.npy',currFolderPath));
 dataStruct.passiveVisConstrast_L=readNPY(sprintf( '%s/passiveVisual.contrastLeft.npy',currFolderPath));
 dataStruct.passiveVisConstrast_R=readNPY(sprintf( '%s/passiveVisual.contrastRight.npy',currFolderPath));
-dataStruct.passiveVisWhiteNoise=readNPY(sprintf( '%s/passiveWhiteNoise.times.npy',currFolderPath));
+dataStruct.passiveVisWhiteNoise=readNPY(sprintf( '%s/passiveWhiteNoise.npy',currFolderPath));
 %%
 for session = 0:nFolders-1 % force 0-index to match python colab data indices
     
     try
-        session=0;
+        session=3;
         dataStruct = [];
         
         currFolder = steinmetz_data_dir(session+1);
