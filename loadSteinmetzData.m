@@ -37,8 +37,10 @@ CA3_sessions = [0, 6, 7, 8, 14, 15, 17, 30, 32, 37];
 ACA_sessions = [0, 3, 4, 11, 12, 21, 24, 26, 29, 34, 38];
 
 badSessions = [];
+% [3     4     7    11    12    13    14    15    29    32    34    38]
 
-for session = 1:nFolders
+
+for session = 0:nFolders
     
     try
         dataStruct = [];
