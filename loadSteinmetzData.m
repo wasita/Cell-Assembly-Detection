@@ -40,7 +40,7 @@ badSessions = [];
 % [3     4     7    11    12    13    14    15    29    32    34    38]
 
 
-for session = 0:nFolders
+for session = 0:nFolders-1 % force 0-index to match python colab data indices
     
     try
         dataStruct = [];
@@ -105,7 +105,8 @@ for session = 0:nFolders
         
         maxSpikeTime = max(spikeTimes);
         binSize = round(maxSpikeTime/0.01); % bc times is given to us in seconds
-        binRanges = 0:0.01:maxSpikeTime;
+        binStep = 0.01;
+        binRanges = 0:binStep:maxSpikeTime;
         
         % Set parameters for running assemply_patterns
         opts.threshold.permutations_percentile = 95;
