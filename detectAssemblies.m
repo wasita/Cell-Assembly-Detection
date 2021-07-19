@@ -20,8 +20,6 @@ if ismember(session, ROI_sessions)
     % session 1 throws error bc leftside is 1 entry longer than right
     % side i.e. binSize = length(binCounts) + 1
     
-    
-    
     for cluster = 1:n_ROI_clusters
         currentCell = ROI_timesPerCluster(cluster);
         

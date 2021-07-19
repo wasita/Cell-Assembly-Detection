@@ -10,7 +10,7 @@
 
 % [] PSCTHs -- correct correlate to choice-time
 
-% [] Plot all assemblies not just first 2!
+% [x] Plot all assemblies not just first 2!
 
 % [] Generate table for easier readout. Columns should be:
 %   [] # assemblies detected
@@ -24,6 +24,8 @@
 % [] Save out timesPerCluster per area per session
 
 % [X] Refactor code -- make function to detect clusters per area
+
+% [] Auto-generate directories for figures output
 
 %% Housekeeping
 clear all; clc;
