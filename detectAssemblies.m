@@ -36,7 +36,7 @@ if ismember(session, ROI_sessions)
     
     % Plot detected assemblies
     
-    for assembly = 1:3 % n_ROI_clusters
+    for assembly = 1:n_ROI_clusters
         
         figTitle = [sessionName, newline, 'Assembly Patterns in ', ROI, newline, ...
             opts.Patterns.method, ' with ',  opts.threshold.method, ' Treshold', ...
