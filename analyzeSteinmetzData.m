@@ -187,10 +187,22 @@ for sessionIdx = 0:nFolders-1
                             ROI_color = [14, 141, 232]/255;
                     end
                     
-                    [ROI_mat, ROI_AssemblyTemplates, n_assemblies_ROI] = detectAssemblies(ROI, ...
-                        sessionIdx, sessionName, ROI_sessions, channels, ...
-                        peakChannels, timesPerCluster, opts, binSize, ...
-                        binRanges, binStep, base_path, patternMethod, ROI_color);
+                    if ismember(sessionIdx, ROI_sessions)
+                        [ROI_mat, ROI_AssemblyTemplates, n_assemblies_ROI] = detectAssemblies(ROI, ...
+                            sessionIdx, sessionName, ROI_sessions, channels, ...
+                            peakChannels, timesPerCluster, opts, binSize, ...
+                            binRanges, binStep, base_path, patternMethod, ROI_color);
+                    else
+                        n_assemblies_ROI = 0;
+                    end
+                    
+                    % Store time bin and ROI specific data
+                    
+                    
+                    
+                    
+                    
+                    
                 end
                 
                 
