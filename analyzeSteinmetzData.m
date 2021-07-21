@@ -168,33 +168,33 @@ for sessionIdx = 0:1 % 0:nFolders-1
                 channels = tdfread([steinmetz_data_path, '/', currSession , '/channels.brainLocation.tsv']);
                 
                 %Read all .npy files into structure
-                dataStruct.peakChannels=readNPY(sprintf( '%s/clusters.peakChannel.npy',currFolderPath));
-                dataStruct.spikeTimes=readNPY(sprintf( '%s/spikes.times.npy',currFolderPath));
-                dataStruct.spikeClusters=readNPY(sprintf( '%s/spikes.clusters.npy',currFolderPath));
-                dataStruct.clusterAnnotes=readNPY(sprintf( '%s/clusters._phy_annotation.npy',currFolderPath));
-                dataStruct.lickTimes=readNPY(sprintf( '%s/licks.times.npy',currFolderPath));
-                dataStruct.trialFeedbackTypes=readNPY(sprintf( '%s/trials.feedbackType.npy',currFolderPath));
-                dataStruct.trialFeedbackTimes=readNPY(sprintf( '%s/trials.feedback_times.npy',currFolderPath));
-                dataStruct.trialgoCueTimes=readNPY(sprintf( '%s/trials.goCue_times.npy',currFolderPath));
-                dataStruct.trialIncluded=readNPY(sprintf( '%s/trials.included.npy',currFolderPath));
-                dataStruct.trialIntervals=readNPY(sprintf( '%s/trials.intervals.npy',currFolderPath));
-                dataStruct.trialResponseTimes=readNPY(sprintf( '%s/trials.response_times.npy',currFolderPath));
-                dataStruct.trialReponceChoice=readNPY(sprintf( '%s/trials.response_choice.npy',currFolderPath));
-                dataStruct.trialRepNo=readNPY(sprintf( '%s/trials.repNum.npy',currFolderPath));
-                dataStruct.trialVisStimContrast_L=readNPY(sprintf( '%s/trials.visualStim_contrastLeft.npy',currFolderPath));
-                dataStruct.trialVisStimContrast_R=readNPY(sprintf( '%s/trials.visualStim_contrastRight.npy',currFolderPath));
-                dataStruct.trialVisStim_times=readNPY(sprintf( '%s/trials.visualStim_times.npy',currFolderPath));
-                dataStruct.wheelPosition=readNPY(sprintf( '%s/wheel.position.npy',currFolderPath));
-                dataStruct.wheelTimes=readNPY(sprintf( '%s/wheel.timestamps.npy',currFolderPath));
-                dataStruct.passiveBeepTimes=readNPY(sprintf( '%s/passiveBeeps.times.npy',currFolderPath));
-                dataStruct.passiveValveClick=readNPY(sprintf( '%s/passiveValveClick.times.npy',currFolderPath));
-                dataStruct.passiveVisualTimes=readNPY(sprintf( '%s/passiveVisual.times.npy',currFolderPath));
-                dataStruct.passiveVisConstrast_L=readNPY(sprintf( '%s/passiveVisual.contrastLeft.npy',currFolderPath));
-                dataStruct.passiveVisConstrast_R=readNPY(sprintf( '%s/passiveVisual.contrastRight.npy',currFolderPath));
-                dataStruct.passiveVisWhiteNoise=readNPY(sprintf( '%s/passiveWhiteNoise.times.npy',currFolderPath));
-                
+                %                 dataStruct.peakChannels=readNPY(sprintf( '%s/clusters.peakChannel.npy',currFolderPath));
+                %                 dataStruct.spikeTimes=readNPY(sprintf( '%s/spikes.times.npy',currFolderPath));
+                %                 dataStruct.spikeClusters=readNPY(sprintf( '%s/spikes.clusters.npy',currFolderPath));
+                %                 dataStruct.clusterAnnotes=readNPY(sprintf( '%s/clusters._phy_annotation.npy',currFolderPath));
+                %                 dataStruct.lickTimes=readNPY(sprintf( '%s/licks.times.npy',currFolderPath));
+                %                 dataStruct.trialFeedbackTypes=readNPY(sprintf( '%s/trials.feedbackType.npy',currFolderPath));
+                %                 dataStruct.trialFeedbackTimes=readNPY(sprintf( '%s/trials.feedback_times.npy',currFolderPath));
+                %                 dataStruct.trialgoCueTimes=readNPY(sprintf( '%s/trials.goCue_times.npy',currFolderPath));
+                %                 dataStruct.trialIncluded=readNPY(sprintf( '%s/trials.included.npy',currFolderPath));
+                %                 dataStruct.trialIntervals=readNPY(sprintf( '%s/trials.intervals.npy',currFolderPath));
+                %                 dataStruct.trialResponseTimes=readNPY(sprintf( '%s/trials.response_times.npy',currFolderPath));
+                %                 dataStruct.trialReponceChoice=readNPY(sprintf( '%s/trials.response_choice.npy',currFolderPath));
+                %                 dataStruct.trialRepNo=readNPY(sprintf( '%s/trials.repNum.npy',currFolderPath));
+                %                 dataStruct.trialVisStimContrast_L=readNPY(sprintf( '%s/trials.visualStim_contrastLeft.npy',currFolderPath));
+                %                 dataStruct.trialVisStimContrast_R=readNPY(sprintf( '%s/trials.visualStim_contrastRight.npy',currFolderPath));
+                %                 dataStruct.trialVisStim_times=readNPY(sprintf( '%s/trials.visualStim_times.npy',currFolderPath));
+                %                 dataStruct.wheelPosition=readNPY(sprintf( '%s/wheel.position.npy',currFolderPath));
+                %                 dataStruct.wheelTimes=readNPY(sprintf( '%s/wheel.timestamps.npy',currFolderPath));
+                %                 dataStruct.passiveBeepTimes=readNPY(sprintf( '%s/passiveBeeps.times.npy',currFolderPath));
+                %                 dataStruct.passiveValveClick=readNPY(sprintf( '%s/passiveValveClick.times.npy',currFolderPath));
+                %                 dataStruct.passiveVisualTimes=readNPY(sprintf( '%s/passiveVisual.times.npy',currFolderPath));
+                %                 dataStruct.passiveVisConstrast_L=readNPY(sprintf( '%s/passiveVisual.contrastLeft.npy',currFolderPath));
+                %                 dataStruct.passiveVisConstrast_R=readNPY(sprintf( '%s/passiveVisual.contrastRight.npy',currFolderPath));
+                %                 dataStruct.passiveVisWhiteNoise=readNPY(sprintf( '%s/passiveWhiteNoise.times.npy',currFolderPath));
+                %
                 %Read other file types
-                dataStruct.channels = tdfread([steinmetz_data_path, '/', currSession , '/channels.brainLocation.tsv']);
+%                 dataStruct.channels = tdfread([steinmetz_data_path, '/', currSession , '/channels.brainLocation.tsv']);
                       
                 
                 
