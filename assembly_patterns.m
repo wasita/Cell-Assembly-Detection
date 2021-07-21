@@ -106,7 +106,7 @@ switch opts.Patterns.method
         AssemblyTemplates = eigenvectors(:,PC_position(1:NumberOfAssemblies));
 
     case 'ICA'
-        AssemblyTemplates=...
+        AssemblyTemplates= ...
             fast_ica(zSpikeCount,NumberOfAssemblies,opts.Patterns.number_of_iterations);
         
     case 'ICA2'

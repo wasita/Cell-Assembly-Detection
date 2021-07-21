@@ -3,7 +3,10 @@
 %%% TO DO %%%
 % [x] Try different time bins; iterate and step through different bins
 
-% [x] Try ICA over PCA
+% [x] Try ICA over PCA?
+% [] Motivate why this upfront, downstream effects?
+
+% []
 
 % [] Make things task-related (Looking at correct/incorrect trials; task
 % segments)
@@ -77,23 +80,27 @@ allSessions = 0:nFolders-1;
 
 %% Pattern assembly extraction parameters %%
 
-methods = {'PCA', 'ICA'};
+% methods = {'PCA', 'ICA'};
+methods = {'ICA'};
 nMeths = length(methods);
 
 ROIs = {'ACA', 'CA1', 'CA3'}; % should match label format in channels.ontology
 nROIs = length(ROIs);
 
-timeWindows = [0.025:0.025:.1, 0.25, 0.5];
+% timeWindows = [0.025:0.025:.1, 0.25, 0.5];
+timeWindows = [0.1];
+
 
 opts.threshold.permutations_percentile = 95;
 opts.threshold.number_of_permutations = 20;
+opts.Patterns.number_of_iterations = 200;
 opts.threshold.method = 'MarcenkoPastur';
 
 %% Initialize table to read out results from batch running
 outputTable = [];
 
 %% Loop through each subfolder in steinmetz-data and load in .npy in each folder
-for sessionIdx = 0:nFolders-1
+for sessionIdx = 0:1 % 0:nFolders-1
     
     % Iterate over different methods
     for method = 1:nMeths
@@ -196,10 +203,7 @@ for sessionIdx = 0:nFolders-1
                         n_assemblies_ROI = 0;
                     end
                     
-                    % Store time bin and ROI specific data
-                    
-                    
-                    
+                   
                     
                     
                     
@@ -219,7 +223,7 @@ for sessionIdx = 0:nFolders-1
                 %     plot(Activities')
                 %     xlim([0 100])
                 
-                badSessions = [badSessions, sessionIdx];
+                %                 badSessions = [badSessions, sessionIdx];
                 
             end
         end
