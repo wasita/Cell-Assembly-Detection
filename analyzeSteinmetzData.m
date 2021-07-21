@@ -154,6 +154,54 @@ for sessionIdx = 0:1 % 0:nFolders-1
                 % Sort table
                 sortedTable = sortrows(dataTable, 'spikeClusters');
                 
+                
+                %%
+                dataStruct = [];
+                
+                currFolder = steinmetz_data_dir(session+1);
+                currSession = currFolder.name;
+                currFolderPath=[steinmetz_data_path, '/',currFolder.name];
+                currFolderContents = dir(fullfile([currFolder.folder, '/', currFolder.name], '*.npy'));
+                nNPYs = length(currFolderContents);
+                
+                %Read Non .npy files
+                channels = tdfread([steinmetz_data_path, '/', currSession , '/channels.brainLocation.tsv']);
+                
+                %Read all .npy files into structure
+                dataStruct.peakChannels=readNPY(sprintf( '%s/clusters.peakChannel.npy',currFolderPath));
+                dataStruct.spikeTimes=readNPY(sprintf( '%s/spikes.times.npy',currFolderPath));
+                dataStruct.spikeClusters=readNPY(sprintf( '%s/spikes.clusters.npy',currFolderPath));
+                dataStruct.clusterAnnotes=readNPY(sprintf( '%s/clusters._phy_annotation.npy',currFolderPath));
+                dataStruct.lickTimes=readNPY(sprintf( '%s/licks.times.npy',currFolderPath));
+                dataStruct.trialFeedbackTypes=readNPY(sprintf( '%s/trials.feedbackType.npy',currFolderPath));
+                dataStruct.trialFeedbackTimes=readNPY(sprintf( '%s/trials.feedback_times.npy',currFolderPath));
+                dataStruct.trialgoCueTimes=readNPY(sprintf( '%s/trials.goCue_times.npy',currFolderPath));
+                dataStruct.trialIncluded=readNPY(sprintf( '%s/trials.included.npy',currFolderPath));
+                dataStruct.trialIntervals=readNPY(sprintf( '%s/trials.intervals.npy',currFolderPath));
+                dataStruct.trialResponseTimes=readNPY(sprintf( '%s/trials.response_times.npy',currFolderPath));
+                dataStruct.trialReponceChoice=readNPY(sprintf( '%s/trials.response_choice.npy',currFolderPath));
+                dataStruct.trialRepNo=readNPY(sprintf( '%s/trials.repNum.npy',currFolderPath));
+                dataStruct.trialVisStimContrast_L=readNPY(sprintf( '%s/trials.visualStim_contrastLeft.npy',currFolderPath));
+                dataStruct.trialVisStimContrast_R=readNPY(sprintf( '%s/trials.visualStim_contrastRight.npy',currFolderPath));
+                dataStruct.trialVisStim_times=readNPY(sprintf( '%s/trials.visualStim_times.npy',currFolderPath));
+                dataStruct.wheelPosition=readNPY(sprintf( '%s/wheel.position.npy',currFolderPath));
+                dataStruct.wheelTimes=readNPY(sprintf( '%s/wheel.timestamps.npy',currFolderPath));
+                dataStruct.passiveBeepTimes=readNPY(sprintf( '%s/passiveBeeps.times.npy',currFolderPath));
+                dataStruct.passiveValveClick=readNPY(sprintf( '%s/passiveValveClick.times.npy',currFolderPath));
+                dataStruct.passiveVisualTimes=readNPY(sprintf( '%s/passiveVisual.times.npy',currFolderPath));
+                dataStruct.passiveVisConstrast_L=readNPY(sprintf( '%s/passiveVisual.contrastLeft.npy',currFolderPath));
+                dataStruct.passiveVisConstrast_R=readNPY(sprintf( '%s/passiveVisual.contrastRight.npy',currFolderPath));
+                dataStruct.passiveVisWhiteNoise=readNPY(sprintf( '%s/passiveWhiteNoise.times.npy',currFolderPath));
+                
+                %Read other file types
+                dataStruct.channels = tdfread([steinmetz_data_path, '/', currSession , '/channels.brainLocation.tsv']);
+                      
+                
+                
+                %%
+                
+               
+                
                 % Grab all the spike times for a given cluster
                 % the size of this varies so we'll initialize without pre-allocation
                 timesPerCluster = {};
@@ -164,6 +212,29 @@ for sessionIdx = 0:1 % 0:nFolders-1
                     allTimesForCurrCluster = spikeTimes(spikeClusters==cluster_idx);
                     timesPerCluster{cluster_idx+1} = allTimesForCurrCluster;
                 end
+                
+                
+
+                % number of channels of the probe corresponding to each area
+                ROI_channel_idx = find(strcmp(cellstr(channels.allen_ontology), ROI));
+                
+                % number of neurons recorded from each area
+                is_ROI = ismember(peakChannels, ROI_channel_idx);
+                
+                ROI_timesPerCluster = timesPerCluster(is_ROI);
+                
+                
+                
+                %                 trialBasedTable = table([dataStruct.trialResponseTimes, ...
+                %                     ]);
+                
+                
+                
+                
+                
+                
+                
+                
                 
                 maxSpikeTime = max(spikeTimes);
                 binSize = round(maxSpikeTime/binStep); % bc times is given to us in seconds
@@ -202,8 +273,63 @@ for sessionIdx = 0:1 % 0:nFolders-1
                     else
                         n_assemblies_ROI = 0;
                     end
-                    
                    
+                    
+                    
+                    % Go from start and end timestamps for trial
+                    % Pre-define binRanges to correspond to those?
+                    % Or find closest bin that correspond to start and end
+                    % timestamps for trials?
+                    
+                    trialStart = floor(dataStruct.trialIntervals(:,1));
+                    binRanges_T=binRanges';
+                           
+                    A = repmat(binRanges_T,[1 length(trialStart)]);
+                    [~,trialStartIdxInBinRanges] = min(abs(A-trialStart'));
+
+                    %Trial End TImes
+                    trialEnd = ceil(dataStruct.trialIntervals(:,1));
+                
+                    A = repmat(binRanges_T,[1 length(trialEnd)]);
+                    [~,trialEndIdxInBinRanges] = min(abs(A-trialEnd'));
+
+                    
+                    startTrialActivities = ROI_Activities(:,trialStartIdxInBinRanges);
+                    endTrialActivities = ROI_Activities(:,trialEndIdxInBinRanges);
+                    
+                    
+                    nTrials = length(trialStart);
+                    avgActivity = nan(nTrials,11);
+                    
+                    %% TO DO: plot for each assembly on same plot to regenerate plot from tutorial
+                    
+                    for trial = 1:nTrials
+                        
+                        activityStartToEnd = ROI_Activities(1,trialStartIdxInBinRanges(trial):trialEndIdxInBinRanges(trial));
+
+                        avgActivity(trial,:) = activityStartToEnd;
+                        
+                    end
+                    
+                    toPlot = sum(avgActivity,1)/nTrials;
+                    
+                    figure;
+                    plot(1:11, toPlot);
+                    
+                    
+    
+                    
+                    
+                    
+                  
+                    
+                    
+                    
+                    
+                    
+                    
+                    ROI_Activities = assembly_activity(ROI_AssemblyTemplates,ROI_mat);
+                    
                     
                     
                     
@@ -212,18 +338,10 @@ for sessionIdx = 0:1 % 0:nFolders-1
                 
             catch me
                 keyboard
-                % TO DO
-                %     Activities = assembly_activity(AssemblyTemplates,ACA_mat);
-                %
-                %     figure(4),clf
-                %     subplot(211)
-                %     imagesc(ACA_mat)
-                %     xlim([0 100])
-                %     subplot(212)
-                %     plot(Activities')
-                %     xlim([0 100])
+     
+             
+         
                 
-                %                 badSessions = [badSessions, sessionIdx];
                 
             end
         end
