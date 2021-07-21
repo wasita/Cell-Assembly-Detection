@@ -292,23 +292,22 @@ for sessionIdx = 0:1 % 0:nFolders-1
                 
                     A = repmat(binRanges_T,[1 length(trialEnd)]);
                     [~,trialEndIdxInBinRanges] = min(abs(A-trialEnd'));
-
-                    
+                   
                     startTrialActivities = ROI_Activities(:,trialStartIdxInBinRanges);
                     endTrialActivities = ROI_Activities(:,trialEndIdxInBinRanges);
-                    
                     
                     nTrials = length(trialStart);
                     avgActivity = nan(nTrials,11);
                     
-                    %% TO DO: plot for each assembly on same plot to regenerate plot from tutorial
-                    
-                    for trial = 1:nTrials
-                        
-                        activityStartToEnd = ROI_Activities(1,trialStartIdxInBinRanges(trial):trialEndIdxInBinRanges(trial));
-
-                        avgActivity(trial,:) = activityStartToEnd;
-                        
+                    % TO DO: plot for each assembly on same plot to regenerate plot from tutorial
+                    for assembly = 1:n_assemblies_ROI
+                        for trial = 1:nTrials
+                            
+                            activityStartToEnd = ROI_Activities(1,trialStartIdxInBinRanges(trial):trialEndIdxInBinRanges(trial));
+                            
+                            avgActivity(trial,:) = activityStartToEnd;
+                            
+                        end
                     end
                     
                     toPlot = sum(avgActivity,1)/nTrials;
