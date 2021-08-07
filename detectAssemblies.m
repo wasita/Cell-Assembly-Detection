@@ -34,37 +34,39 @@ k = 2;
 rng(1); % For reproducibility
 
 for assembly = 1:size(ROI_AssemblyTemplates,2)
-    
+
     idx = kmeans(ROI_AssemblyTemplates(:,assembly),k);
-    
+
     figure;
-    set(gcf, 'Visible', 'off');
+%     set(gcf, 'Visible', 'off');
     plot(ROI_AssemblyTemplates(idx==1,assembly),ROI_AssemblyTemplates(idx==1,assembly),'r.','MarkerSize',12)
     hold on
     plot(ROI_AssemblyTemplates(idx==2,assembly),ROI_AssemblyTemplates(idx==2,assembly),'b.','MarkerSize',12)
-    
+
     legend('Cluster 1','Cluster 2', 'Cluster 3', ...
         'Location','NW')
     title(['Cluster Assignments', newline, 'Assembly ', num2str(assembly), ' out of ', ...
         num2str(n_assemblies_ROI), newline, 'k=', num2str(k)]);
-    
+
     prettifyFig()
-    
-    % Save out plots
-    figPath = [base_path, '/figures/AssemblyPatterns/', ...
-        patternMethod, '/', num2str(binStep), '/', ROI, '/', ...
-        sessionName, '_', patternMethod, '_kmeans_', 'k_', num2str(k), ...
-        '_cluster_', num2str(assembly), '_out_of_', ...
-        num2str(n_assemblies_ROI), '.png'];
-    
-    saveas(gcf, [figPath{:}]);
-    
+
+    pause()
+    close all
+% %     % Save out plots
+% %     figPath = [base_path, '/figures/AssemblyPatterns/', ...
+% %         patternMethod, '/', num2str(binStep), '/', ROI, '/', ...
+% %         sessionName, '_', patternMethod, '_kmeans_', 'k_', num2str(k), ...
+% %         '_cluster_', num2str(assembly), '_out_of_', ...
+% %         num2str(n_assemblies_ROI), '.png'];
+% % 
+% %     saveas(gcf, [figPath{:}]);
+
 end
 
 
 
 
-Plot detected assemblies
+% Plot detected assemblies
 
 for assembly = 1:n_assemblies_ROI
     
@@ -73,43 +75,87 @@ for assembly = 1:n_assemblies_ROI
         newline, 'Assembly ', num2str(assembly), ' out of ', ...
         num2str(n_assemblies_ROI), newline, 'Bin Step = ', num2str(binStep)];
     
+    toPlot = ROI_AssemblyTemplates(:,assembly);
+    toPlot(idx==2,:) = nan;
+    
     figure;
-    set(gcf, 'Visible', 'off');
-    h = stem(ROI_AssemblyTemplates(idx==1,assembly));
-    title([figTitle{:}], 'Interpreter', 'None');
+    
+    y = yline(0);
+    y.Color = [0, 0, 0];
+    y.LineWidth = 2;
+    hold on
+    
+    
+    %     set(gcf, 'Visible', 'off');
+    h = stem(toPlot);
+    %     title([figTitle{:}], 'Interpreter', 'None');
     prettifyFig();
-    h.LineWidth = 2;
+    h.LineWidth = 3;
     h.MarkerFaceColor = ROI_color;
+    h.MarkerSize = 8;
     h.Color = ROI_color;
     set(gca,'linewidth',3);
     
+    % make 0-line centered
+    axes = gca;
+    set(gca, 'YLim', [-.6, .6]);
     
-    %         hold on
-    figure;
-    set(gcf, 'Visible', 'off');
-    h = stem(ROI_AssemblyTemplates(idx==2,assembly));
+    
+    hold on
+    
+    
+    toPlot = ROI_AssemblyTemplates(:,assembly);
+    toPlot(idx==1,:) = nan;
+    
+    %     figure;
+    %     set(gcf, 'Visible', 'off');
+    h = stem(toPlot);
     h.MarkerFaceColor = [185, 5, 230]/255;
+    h.Color = [185, 5, 230]/255;
+    h.MarkerSize = 8;
     set(gca,'linewidth',3);
     prettifyFig();
-    h.LineWidth = 2;
+    h.LineWidth = 3;
     
     % make 0-line centered
     axes = gca;
-    %     set(gca, 'YLim', [-max(abs(axes.YLim)), max(abs(axes.YLim))]);
+    set(gca, 'YLim', [-.6, .6]);
+    
+    
+    figure;
+    
+    y = yline(0);
+    y.Color = [0, 0, 0];
+    y.LineWidth = 2;
+    hold on
+    
+    %     set(gcf, 'Visible', 'off');
+    h = stem(ROI_AssemblyTemplates(:,assembly));
+    %     title([figTitle{:}], 'Interpreter', 'None');
+    prettifyFig();
+    h.LineWidth = 3;
+    h.MarkerFaceColor = ROI_color;
+    h.Color = ROI_color;
+    set(gca,'linewidth',3);
+    % make 0-line centered
+    axes = gca;
+    set(gca, 'YLim', [-.6, .6]);
+    
     
     set(gca, 'YLim', [-max(abs(axes.YLim)), max(abs(axes.YLim))]);
     
-    % Save out plots
-    figPath = [base_path, '/figures/AssemblyPatterns/', ...
-        patternMethod, '/', num2str(binStep), '/', ROI, '/', ...
-        sessionName, '_', ROI '_assembly_patterns_', ...
-        opts.Patterns.method, '_', opts.threshold.method, '_', 'binStep_', ...
-        num2str(binStep), '_', num2str(assembly), '_out_of_', ...
-        num2str(n_assemblies_ROI), '_assemblies.png'];
+ 
+%     % Save out plots
+%     figPath = [base_path, '/figures/AssemblyPatterns/', ...
+%         patternMethod, '/', num2str(binStep), '/', ROI, '/', ...
+%         sessionName, '_', ROI '_assembly_patterns_', ...
+%         opts.Patterns.method, '_', opts.threshold.method, '_', 'binStep_', ...
+%         num2str(binStep), '_', num2str(assembly), '_out_of_', ...
+%         num2str(n_assemblies_ROI), '_assemblies.png'];
+%     
+%     saveas(gcf, [figPath{:}]);
     
-    saveas(gcf, [figPath{:}]);
-    
-    close all;
+%     close all;
     
 end
 

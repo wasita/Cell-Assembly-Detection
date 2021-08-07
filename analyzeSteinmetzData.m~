@@ -301,23 +301,20 @@ for sessionIdx = 0:1 % 0:nFolders-1
                         nCorrectResps = sum(isCorrect);
                        
                         avgActivityCorrect = sum(activity(find(isCorrect==1),:),1)/nCorrectResps;
-                        p1 = plot(1:11, avgActivityCorrect, 'linewidth', 4);
+                        p = plot(1:11, avgActivityCorrect, 'line);
                         hold on
                         
 
                         avgActivityIncorrect = sum(activity(find(isCorrect==0),:),1)/(nTrials-nCorrectResps);
-                        p2 = plot(1:11, avgActivityIncorrect, 'linewidth', 4);
+                        p = plot(1:11, avgActivityIncorrect);
 
                         
                     end
-                    
-                    ll = legend([p1, p2], 'Correct', 'Incorrect', 'SouthEast');
-                    ll.Title.String = 'Response Trial Type';
-%                     xlabel('Time Bin within a Trial');
 
-                    prettifyFig('sq')
                     
-                    set(gca,'linewidth',3);
+                    prettifyFig()
+                    
+                    
                     
                     %                     % incorrect
                     %                     figure;
